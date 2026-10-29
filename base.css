@@ -6,7 +6,7 @@
  * Content root: `body.vscode-body` in the VS Code preview, or any element with
  * class `foglio` when another page (e.g. Read Along) embeds the theme.
  */
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,600;1,600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,700;1,7..72,400;1,7..72,700&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,600;1,600&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 /* ---------- palette defaults ----------
    Inchiostro, used when no palette file matches (no palette loaded, high contrast).
@@ -41,9 +41,16 @@ body.vscode-high-contrast-light {
   --highlight: color-mix(in srgb, var(--accent) 38%, transparent);
   --highlight-soft: color-mix(in srgb, var(--accent) 14%, transparent);
   --fp-border: color-mix(in srgb, var(--muted) 35%, transparent);
-  --fp-size: 17px;
+  /* Follows VS Code's markdown.preview.fontSize: the default 14 gives 17px, 15 gives about 18px */
+  --fp-size: calc(var(--markdown-font-size, 14px) * 17 / 14);
   --fp-lh: calc(var(--fp-size) * 1.7);
 }
+/* Light text on dark looks thinner, so dark palettes use a slightly heavier body weight */
+body,
+body.vscode-dark,
+body.vscode-high-contrast { --fp-weight: 450; }
+body.vscode-light,
+body.vscode-high-contrast-light { --fp-weight: 400; }
 
 /* ---------- layout ---------- */
 :is(body.vscode-body, .foglio) {
@@ -58,6 +65,7 @@ body.vscode-high-contrast-light {
   font-family: "Literata", Georgia, serif;
   font-size: var(--fp-size);
   line-height: 1.7;
+  font-weight: var(--fp-weight);
   font-optical-sizing: auto;
   word-wrap: break-word;
 }

@@ -10,9 +10,9 @@ Add this to your VS Code user settings (JSON). It loads the base stylesheet, one
 
 ```json
 "markdown.styles": [
-  "https://cdn.jsdelivr.net/gh/simone-belli/foglio-protocollo@v1.0.0/base.css",
-  "https://cdn.jsdelivr.net/gh/simone-belli/foglio-protocollo@v1.0.0/palettes/dark-inchiostro.css",
-  "https://cdn.jsdelivr.net/gh/simone-belli/foglio-protocollo@v1.0.0/palettes/light-carta.css"
+  "https://cdn.jsdelivr.net/gh/simone-belli/foglio-protocollo@v1.1.0/base.css",
+  "https://cdn.jsdelivr.net/gh/simone-belli/foglio-protocollo@v1.1.0/palettes/dark-inchiostro.css",
+  "https://cdn.jsdelivr.net/gh/simone-belli/foglio-protocollo@v1.1.0/palettes/light-carta.css"
 ]
 ```
 
@@ -20,13 +20,17 @@ Or use the one-file bundle, which is the same base with the two default palettes
 
 ```json
 "markdown.styles": [
-  "https://cdn.jsdelivr.net/gh/simone-belli/foglio-protocollo@v1.0.0/foglio-protocollo.css"
+  "https://cdn.jsdelivr.net/gh/simone-belli/foglio-protocollo@v1.1.0/foglio-protocollo.css"
 ]
 ```
 
-After editing the settings, run **Developer: Reload Window**, then reopen the preview. Load `base.css` first and the palettes after it.
+After editing the settings, run **Developer: Reload Window**, then reopen the preview. Keep `base.css` as the first URL in the list, with the palette URLs after it.
 
 To switch palette, change one URL. List one `dark-…` file and one `light-…` file.
+
+**Text size:** set **Markdown › Preview: Font Size** (`markdown.preview.fontSize`). The default, 14, gives 17px body text; 15 gives about 18px, which looks sharper on standard-resolution screens. The column stays 80 characters wide at any size. On the dark palettes the body text is set slightly heavier, because light text on a dark background looks thinner.
+
+**Preview unchanged?** VS Code skips a stylesheet it can't download, without any message. Paste one of the URLs into a web browser: it should show CSS text. A "not found" page means the URL is wrong, or the version tag in it (`@v1.1.0`) has not been released on GitHub.
 
 ## Palettes
 
@@ -95,7 +99,7 @@ Releases are semver git tags (`v1.0.0`, `v1.1.0`, …). Always point your settin
 If a URL ever serves stale content, purge it by opening the same path on `purge.jsdelivr.net`:
 
 ```
-https://purge.jsdelivr.net/gh/simone-belli/foglio-protocollo@v1.0.0/base.css
+https://purge.jsdelivr.net/gh/simone-belli/foglio-protocollo@v1.1.0/base.css
 ```
 
 ## Development
