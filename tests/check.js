@@ -29,11 +29,11 @@ const PALETTES = {
 const url = (p) => 'file://' + p;
 // VS Code's own preview stylesheet, if downloaded (see README), so the theme is tested against it
 const vscodeCss = path.join(__dirname, 'vscode-markdown.css');
-function page(styles, mode, extraClass = '') {
+function page(styles, mode, extraClass = '', fontSize = 14) {
   const links = [path.join(mods, 'katex/dist/katex.min.css'), ...(fs.existsSync(vscodeCss) ? [vscodeCss] : []), ...styles]
     .map((s) => `<link rel="stylesheet" href="${url(s)}">`).join('\n');
   const file = path.join(out, `page-${mode}.html`);
-  fs.writeFileSync(file, `<!doctype html><html><head><meta charset="utf-8">
+  fs.writeFileSync(file, `<!doctype html><html style="--markdown-font-size: ${fontSize}px;"><head><meta charset="utf-8">
 <style>body { margin: 0; padding: 0 20px; background-color: transparent; }</style>
 ${links}</head>
 <body class="vscode-body vscode-${mode} ${extraClass}"><div class="markdown-body" dir="auto">${body}</div></body></html>`);
@@ -80,6 +80,8 @@ const rgb = (hex) => `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 1
       katexDisplayOverflow: getComputedStyle(document.querySelector('.katex-display')).overflowX,
       tasks: document.querySelectorAll('.task-list-item input[type=checkbox]').length,
       footnotes: document.querySelectorAll('.footnotes li').length,
+      size: parseFloat(cs.fontSize), weight: getComputedStyle(document.querySelector('p')).fontWeight,
+      weightFont: document.fonts.check('450 17px Literata'),
       quoteBorder: getComputedStyle(document.querySelector('blockquote')).borderLeftColor,
     };
   });
@@ -94,6 +96,8 @@ const rgb = (hex) => `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 1
   check('KaTeX keeps its own font', m.katex >= 3 && m.katexFont.includes('KaTeX_Main'), m.katexFont);
   check('display maths scrolls', m.katexDisplayOverflow === 'auto');
   check('task list and footnotes rendered', m.tasks === 3 && m.footnotes === 2);
+  check('body text is 17px at VS Code\'s default font size', m.size === 17, m.size + 'px');
+  check('dark palettes use a heavier body weight', m.weight === '450' && m.weightFont, m.weight);
   check('blockquote border uses --accent', m.quoteBorder === rgb('#c96b5a'), m.quoteBorder);
   await tab.screenshot({ path: path.join(out, 'default-dark.png'), fullPage: true });
 
@@ -106,6 +110,24 @@ const rgb = (hex) => `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 1
   check('high contrast falls back to Inchiostro', (await bg()) === rgb('#1e1e1c'), await bg());
   await tab.evaluate(() => document.body.classList.add('vscode-high-contrast-light'));
   check('high contrast light falls back to Carta', (await bg()) === rgb('#fbf8f1'), await bg());
+
+  const weight = () => tab.evaluate(() => getComputedStyle(document.querySelector('p')).fontWeight);
+  await tab.evaluate(() => document.body.className = 'vscode-body vscode-light');
+  check('light palettes use the normal body weight', (await weight()) === '400', await weight());
+
+  // markdown.preview.fontSize scales the theme: 15 gives about 18px, and the column stays 80ch
+  await tab.goto(page([base, pal('dark-inchiostro'), pal('light-carta')], 'dark', '', 15));
+  const s15 = await tab.evaluate(() => {
+    const probe = document.createElement('div');
+    probe.style.width = '80ch';
+    document.body.appendChild(probe);
+    const ch80 = probe.getBoundingClientRect().width;
+    probe.remove();
+    const cs = getComputedStyle(document.body);
+    return { size: parseFloat(cs.fontSize), width: parseFloat(cs.width), ch80 };
+  });
+  check('preview font size 15 gives about 18px', Math.abs(s15.size - 18.21) < 0.05, s15.size.toFixed(2) + 'px');
+  check('column stays 80ch at the larger size', Math.abs(s15.width - s15.ch80) < 1, s15.width.toFixed(1) + 'px');
 
   // 4: each palette on its own
   for (const [name, [mode, bgHex, fgHex]] of Object.entries(PALETTES)) {
