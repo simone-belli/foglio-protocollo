@@ -1,0 +1,10 @@
+/* Foglio Protocollo – palette: Bianco (light), plain white. Load after base.css. */
+body.vscode-light {
+  --bg: #ffffff;
+  --fg: #24292f;
+  --head: #111418;
+  --link: #1f5fbf;
+  --accent: #1f5fbf;
+  --muted: #6e7781;
+  --codebg: #f4f6f8;
+}

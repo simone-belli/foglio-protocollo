@@ -1,0 +1,10 @@
+/* Foglio Protocollo – palette: Inchiostro (dark), ink on dark paper (default dark). Load after base.css. */
+body.vscode-dark {
+  --bg: #1e1e1c;
+  --fg: #dcd7cc;
+  --head: #f0ebe0;
+  --link: #d9a35f;
+  --accent: #c96b5a;
+  --muted: #9a948a;
+  --codebg: #2a2a27;
+}

@@ -1,0 +1,10 @@
+/* Foglio Protocollo – palette: Lavagna (dark), blackboard green. Load after base.css. */
+body.vscode-dark {
+  --bg: #1c2321;
+  --fg: #d6dcd4;
+  --head: #eef2ea;
+  --link: #9fcf8f;
+  --accent: #e3c567;
+  --muted: #8e9a92;
+  --codebg: #252e2b;
+}

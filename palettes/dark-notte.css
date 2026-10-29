@@ -1,0 +1,10 @@
+/* Foglio Protocollo – palette: Notte (dark), night blue. Load after base.css. */
+body.vscode-dark {
+  --bg: #161b26;
+  --fg: #cfd6e4;
+  --head: #e8edf7;
+  --link: #7fb4e6;
+  --accent: #b39ddb;
+  --muted: #8792a8;
+  --codebg: #1f2533;
+}

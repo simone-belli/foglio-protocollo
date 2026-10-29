@@ -1,0 +1,264 @@
+/*
+ * Foglio Protocollo – base.css
+ * Fonts, layout and element styles for the VS Code Markdown preview.
+ * Colours come only from the palette variables (see palettes/ and the README).
+ *
+ * Content root: `body.vscode-body` in the VS Code preview, or any element with
+ * class `foglio` when another page (e.g. Read Along) embeds the theme.
+ */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,600;1,600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,700;1,7..72,400;1,7..72,700&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+/* ---------- palette defaults ----------
+   Inchiostro, used when no palette file matches (no palette loaded, high contrast).
+   Palette files override these on body.vscode-dark / body.vscode-light. */
+body,
+body.vscode-high-contrast {
+  --bg: #1e1e1c;
+  --fg: #dcd7cc;
+  --head: #f0ebe0;
+  --link: #d9a35f;
+  --accent: #c96b5a;
+  --muted: #9a948a;
+  --codebg: #2a2a27;
+}
+body.vscode-high-contrast-light {
+  --bg: #fbf8f1;
+  --fg: #2b2925;
+  --head: #1a1916;
+  --link: #a0522d;
+  --accent: #b33a3a;
+  --muted: #7a746a;
+  --codebg: #f0ebdf;
+}
+/* Derived values. Set on every palette scope so they resolve against that palette. */
+body,
+body.vscode-dark,
+body.vscode-light,
+body.vscode-high-contrast,
+body.vscode-high-contrast-light {
+  --rule: transparent;
+  --margin: transparent;
+  --highlight: color-mix(in srgb, var(--accent) 38%, transparent);
+  --highlight-soft: color-mix(in srgb, var(--accent) 14%, transparent);
+  --fp-border: color-mix(in srgb, var(--muted) 35%, transparent);
+  --fp-size: 17px;
+  --fp-lh: calc(var(--fp-size) * 1.7);
+}
+
+/* ---------- layout ---------- */
+:is(body.vscode-body, .foglio) {
+  box-sizing: content-box;
+  max-width: 80ch;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  position: relative;
+  isolation: isolate;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Literata", Georgia, serif;
+  font-size: var(--fp-size);
+  line-height: 1.7;
+  font-optical-sizing: auto;
+  word-wrap: break-word;
+}
+/* Ruled lines and margin line (only visible where the palette sets --rule / --margin) */
+:is(body.vscode-body, .foglio)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(to right,
+      transparent calc(1.5rem - 0.7rem),
+      var(--margin) calc(1.5rem - 0.7rem),
+      var(--margin) calc(1.5rem - 0.7rem + 1px),
+      transparent calc(1.5rem - 0.7rem + 1px)),
+    repeating-linear-gradient(to bottom,
+      transparent 0,
+      transparent calc(var(--fp-lh) - 1px),
+      var(--rule) calc(var(--fp-lh) - 1px),
+      var(--rule) var(--fp-lh));
+  background-position: 0 0, 0 2rem;
+}
+
+/* ---------- text ---------- */
+:is(body.vscode-body, .foglio) :is(p, ul, ol, dl, blockquote, pre, table, figure) {
+  margin: 0 0 var(--fp-lh);
+}
+:is(body.vscode-body, .foglio) :is(strong, b) { font-weight: 700; }
+:is(body.vscode-body, .foglio) :is(em, i) { font-style: italic; }
+:is(body.vscode-body, .foglio) mark {
+  background: var(--highlight);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 0.1em;
+}
+:is(body.vscode-body, .foglio) ::selection { background: var(--highlight); }
+
+:is(body.vscode-body, .foglio) :is(h1, h2, h3, h4, h5, h6) {
+  font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--head);
+  margin: 2em 0 0.6em;
+  padding: 0;
+  border: 0;
+}
+:is(body.vscode-body, .foglio) h1 {
+  font-size: 2em;
+  margin-top: 0.4em;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid var(--fp-border);
+}
+:is(body.vscode-body, .foglio) h2 {
+  font-size: 1.55em;
+  padding-bottom: 0.2em;
+  border-bottom: 1px solid var(--fp-border);
+}
+:is(body.vscode-body, .foglio) h3 { font-size: 1.3em; }
+:is(body.vscode-body, .foglio) h4 { font-size: 1.12em; }
+:is(body.vscode-body, .foglio) h5 { font-size: 1em; }
+:is(body.vscode-body, .foglio) h6 { font-size: 0.9em; color: var(--muted); letter-spacing: 0.03em; }
+:is(body.vscode-body, .foglio) :is(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-top: 0.6em; }
+
+:is(body.vscode-body, .foglio) a {
+  color: var(--link);
+  text-decoration: none;
+}
+:is(body.vscode-body, .foglio) a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+:is(body.vscode-body, .foglio) blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0 0 0 1.1em;
+  border-left: 3px solid var(--accent);
+  background: transparent;
+  color: var(--muted);
+  font-style: italic;
+}
+:is(body.vscode-body, .foglio) blockquote > :last-child { margin-bottom: 0; }
+
+:is(body.vscode-body, .foglio) hr {
+  height: 0;
+  border: 0;
+  border-top: 1px solid var(--fp-border);
+  margin: calc(var(--fp-lh) * 1.5) 0;
+}
+
+:is(body.vscode-body, .foglio) img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- lists ---------- */
+:is(body.vscode-body, .foglio) :is(ul, ol) { padding-left: 1.8em; }
+:is(body.vscode-body, .foglio) li > :is(ul, ol) { margin-bottom: 0; }
+:is(body.vscode-body, .foglio) li > p { margin-bottom: 0.5em; }
+:is(body.vscode-body, .foglio) li::marker { color: var(--muted); }
+/* Task lists: markdown-it-task-lists markup, or a bare checkbox as first child */
+:is(body.vscode-body, .foglio) :is(.contains-task-list, ul:has(> li > input[type="checkbox"]:first-child)) {
+  list-style: none;
+  padding-left: 1.6em;
+}
+:is(body.vscode-body, .foglio) :is(.task-list-item, li:has(> input[type="checkbox"]:first-child)) > input[type="checkbox"] {
+  margin: 0 0.5em 0 -1.4em;
+  vertical-align: -0.1em;
+  accent-color: var(--accent);
+}
+
+/* ---------- code ---------- */
+:is(body.vscode-body, .foglio) :is(code, kbd, samp, tt) {
+  font-family: "Ubuntu Mono", "DejaVu Sans Mono", monospace;
+  font-size: 1.08em;
+  line-height: 1;
+}
+:is(body.vscode-body, .foglio) :not(pre) > code {
+  color: var(--fg);
+  background: var(--codebg);
+  padding: 0.12em 0.32em;
+  border-radius: 4px;
+}
+:is(body.vscode-body, .foglio) pre {
+  background: var(--codebg);
+  color: var(--fg);
+  border: 0;
+  border-radius: 8px;
+  padding: 0.9em 1.1em;
+  overflow-x: auto;
+  white-space: pre;
+  font-size: 1em;
+  line-height: 1.45;
+  tab-size: 4;
+}
+:is(body.vscode-body, .foglio) pre code {
+  display: block;
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  white-space: pre;
+  line-height: inherit;
+}
+/* VS Code wraps highlighted code in a div with its own padding */
+:is(body.vscode-body, .foglio) pre code > div {
+  padding: 0;
+  background: none;
+}
+
+/* ---------- tables ---------- */
+:is(body.vscode-body, .foglio) table {
+  border-collapse: collapse;
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  font-variant-numeric: tabular-nums;
+}
+:is(body.vscode-body, .foglio) :is(th, td) {
+  border: 1px solid var(--fp-border);
+  padding: 0.35em 0.8em;
+  text-align: left;
+}
+:is(body.vscode-body, .foglio) th {
+  font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 0.92em;
+  color: var(--head);
+  background: var(--codebg);
+}
+:is(body.vscode-body, .foglio) :is(th, td)[align="center"] { text-align: center; }
+:is(body.vscode-body, .foglio) :is(th, td)[align="right"] { text-align: right; }
+:is(body.vscode-body, .foglio) :is(th, td)[style*="center"] { text-align: center; }
+:is(body.vscode-body, .foglio) :is(th, td)[style*="right"] { text-align: right; }
+:is(body.vscode-body, .foglio) tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--codebg) 50%, transparent);
+}
+
+/* ---------- footnotes (markdown-it-footnote markup) ---------- */
+:is(body.vscode-body, .foglio) .footnote-ref a,
+:is(body.vscode-body, .foglio) sup a {
+  font-size: 0.8em;
+  padding: 0 0.1em;
+}
+:is(body.vscode-body, .foglio) hr.footnotes-sep { margin-bottom: calc(var(--fp-lh) * 0.5); }
+:is(body.vscode-body, .foglio) .footnotes {
+  font-size: 0.88em;
+  color: var(--muted);
+}
+:is(body.vscode-body, .foglio) .footnotes-list { padding-left: 1.4em; }
+:is(body.vscode-body, .foglio) .footnote-backref { text-decoration: none; }
+
+/* ---------- maths ----------
+   KaTeX (VS Code) and MathJax (Read Along) bring their own fonts; only spacing here. */
+:is(body.vscode-body, .foglio) .katex { font-size: 1.1em; line-height: 1.2; }
+:is(body.vscode-body, .foglio) .katex-display,
+:is(body.vscode-body, .foglio) mjx-container[display="true"] {
+  display: block;
+  margin: 0 0 var(--fp-lh);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.2em 0;
+}

@@ -1,0 +1,10 @@
+/* Foglio Protocollo – palette: Carta (light), warm paper (default light). Load after base.css. */
+body.vscode-light {
+  --bg: #fbf8f1;
+  --fg: #2b2925;
+  --head: #1a1916;
+  --link: #a0522d;
+  --accent: #b33a3a;
+  --muted: #7a746a;
+  --codebg: #f0ebdf;
+}
