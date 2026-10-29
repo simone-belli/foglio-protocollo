@@ -24,9 +24,11 @@ Or use the one-file bundle, which is the same base with the two default palettes
 ]
 ```
 
-After editing the settings, run **Developer: Reload Window**, then reopen the preview. Load `base.css` first and the palettes after it.
+After editing the settings, run **Developer: Reload Window**, then reopen the preview. Keep `base.css` as the first URL in the list, with the palette URLs after it.
 
 To switch palette, change one URL. List one `dark-…` file and one `light-…` file.
+
+**Preview unchanged?** VS Code skips a stylesheet it can't download, without any message. Paste one of the URLs into a web browser: it should show CSS text. A "not found" page means the URL is wrong, or the version tag in it (`@v1.0.0`) has not been released on GitHub.
 
 ## Palettes
 
