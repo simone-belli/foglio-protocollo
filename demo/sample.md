@@ -88,7 +88,9 @@ $$
 
 ## Images
 
-![The Read Along logo](https://raw.githubusercontent.com/simone-belli/read-along/main/logo.svg)
+Images never grow wider than the column:
+
+<img src="https://raw.githubusercontent.com/simone-belli/read-along/main/logo.svg" alt="The Read Along logo" width="120">
 
 ## Footnotes
 
@@ -103,4 +105,4 @@ Above the rule.
 
 ---
 
-Below the rule. <mark>Marked text</mark> uses the same colour as the Read Along word highlight.
+Below the rule. <mark>Marked text</mark> uses `--highlight`, the colour meant for the spoken-word highlight in Read Along.
