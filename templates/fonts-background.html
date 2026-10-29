@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Foglio Protocollo – Palettes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital@0;1&family=IBM+Plex+Sans:wght@600&family=Ubuntu+Mono&display=swap">
+<style>
+  body { margin: 0; padding: 2rem; background: #888; font-family: sans-serif; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(520px, 1fr)); gap: 2rem; }
+  .label { font: 13px monospace; color: #fff; margin-bottom: 0.4rem; }
+  .page { background: var(--bg); color: var(--fg); padding: 2rem 2.2rem; border-radius: 8px; box-shadow: 0 4px 18px rgba(0,0,0,.25); }
+  .page.ruled { background-image: linear-gradient(to right, transparent 1.4rem, var(--margin) 1.4rem, var(--margin) calc(1.4rem + 1px), transparent calc(1.4rem + 1px)), repeating-linear-gradient(to bottom, transparent 0, transparent calc(1.7em * 17 / 17 - 1px), var(--rule) calc(1.7em - 1px), var(--rule) 1.7em); background-color: var(--bg); }
+  h1, h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; color: var(--head); line-height: 1.25; }
+  h1 { font-size: 26px; margin: 0 0 0.6rem; }
+  h2 { font-size: 20px; margin: 1.4rem 0 0.4rem; }
+  p, li { font-family: 'Literata', serif; font-size: 17px; line-height: 1.7; }
+  a { color: var(--link); }
+  blockquote { margin: 1rem 0; padding: 0.2rem 1rem; border-left: 3px solid var(--accent); color: var(--muted); font-style: italic; }
+  code { font-family: 'Ubuntu Mono', monospace; font-size: 1.05em; background: var(--codebg); padding: 0.1em 0.35em; border-radius: 4px; }
+  pre { font-family: 'Ubuntu Mono', monospace; font-size: 17px; line-height: 1.5; background: var(--codebg); padding: 1rem 1.2rem; border-radius: 6px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  .kw { color: var(--accent); } .str { color: var(--link); } .com { color: var(--muted); font-style: italic; }
+</style>
+</head>
+<body>
+<div class="grid" id="grid"></div>
+<script>
+  const palettes = [
+    { name: "Dark 1 – Inchiostro (ink: soft charcoal, warm text)", bg: "#1e1e1c", fg: "#dcd7cc", head: "#f0ebe0", link: "#d9a35f", accent: "#c96b5a", muted: "#9a948a", codebg: "#2a2a27" },
+    { name: "Dark 2 – Notte (midnight blue, cool text)", bg: "#161b26", fg: "#cfd6e4", head: "#e8edf7", link: "#7fb4e6", accent: "#b39ddb", muted: "#8792a8", codebg: "#1f2533" },
+    { name: "Dark 3 – Lavagna (blackboard green-grey, chalk text)", bg: "#1c2321", fg: "#d6dcd4", head: "#eef2ea", link: "#9fcf8f", accent: "#e3c567", muted: "#8e9a92", codebg: "#252e2b" },
+    { name: "Light 1 – Carta (warm paper)", bg: "#fbf8f1", fg: "#2b2925", head: "#1a1916", link: "#a0522d", accent: "#b33a3a", muted: "#7a746a", codebg: "#f0ebdf" },
+    { name: "Light 2 – Bianco (crisp white, ink blue accents)", bg: "#ffffff", fg: "#24292f", head: "#111418", link: "#1f5fbf", accent: "#1f5fbf", muted: "#6e7781", codebg: "#f4f6f8" },
+    { name: "Light 3 – Foglio Protocollo (ruled sheet, red margin)", bg: "#fdfdf8", fg: "#2a2a2a", head: "#1c2a4a", link: "#2b4c8c", accent: "#c0392b", muted: "#777", codebg: "#f1f1ea", rule: "#dfe6f0", margin: "#e7a3a3", ruled: true }
+  ];
+  const content = `
+    <h1>Lorem Ipsum Dolor</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do <em>eiusmod tempor</em> incididunt ut labore. See <a href="#">this link</a> and call <code>sharpe_ratio(returns)</code> inline.</p>
+    <blockquote><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p></blockquote>
+    <h2>Sectio Secunda</h2>
+    <pre><code><span class="kw">def</span> sharpe(r, rf=<span class="str">0.0</span>):
+    <span class="com"># annualised Sharpe ratio</span>
+    <span class="kw">return</span> np.sqrt(252) * (r - rf).mean() / r.std()</code></pre>
+    <ul><li>Duis aute irure dolor in reprehenderit.</li><li>Excepteur sint occaecat cupidatat.</li></ul>`;
+  const grid = document.getElementById("grid");
+  palettes.forEach(p => {
+    const vars = Object.entries(p).filter(([k]) => !["name","ruled"].includes(k)).map(([k,v]) => `--${k}:${v}`).join(";");
+    grid.insertAdjacentHTML("beforeend", `<div><div class="label">${p.name}</div><div class="page${p.ruled ? " ruled" : ""}" style="${vars}">${content}</div></div>`);
+  });
+</script>
+</body>
+</html>

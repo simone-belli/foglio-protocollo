@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Foglio Protocollo – Mono Specimens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata&family=IBM+Plex+Sans:wght@600&family=IBM+Plex+Mono&family=JetBrains+Mono&family=Fira+Code&family=Source+Code+Pro&family=Roboto+Mono&family=Inconsolata&family=Ubuntu+Mono&family=Space+Mono&display=swap">
+<style>
+  body { max-width: 80ch; margin: 2rem auto; padding: 0 1.5rem; background: #fdfcf8; color: #222; }
+  h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 22px; margin: 3rem 0 0.5rem; }
+  p { font-family: 'Literata', serif; font-size: 17px; line-height: 1.7; margin: 0 0 0.8rem; }
+  pre { background: #f3f1ea; border-radius: 6px; padding: 1rem 1.2rem; font-size: 15px; line-height: 1.55; overflow-x: auto; margin: 0; }
+  code.inline { background: #f3f1ea; padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.9em; }
+</style>
+</head>
+<body>
+<div id="list"></div>
+<script>
+  const fonts = ["IBM Plex Mono", "JetBrains Mono", "Fira Code", "Source Code Pro", "Roboto Mono", "Inconsolata", "Ubuntu Mono", "Space Mono"];
+  const code = `import numpy as np
+
+def sharpe_ratio(returns: np.ndarray, rf: float = 0.0) -> float:
+    """Annualised Sharpe ratio of daily returns."""
+    excess = returns - rf / 252
+    if excess.std() == 0:
+        return 0.0  # avoid division by zero
+    return np.sqrt(252) * excess.mean() / excess.std()
+
+# 0O 1lI {} [] () => != <= >= -> ===`;
+  const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const list = document.getElementById("list");
+  fonts.forEach((f, i) => {
+    const ff = `font-family: '${f}', monospace`;
+    list.insertAdjacentHTML("beforeend",
+      `<h2>${i + 1}. ${f}</h2>` +
+      `<p>Lorem ipsum dolor sit amet, with inline code like <code class="inline" style="${ff}">sharpe_ratio(returns)</code> in the sentence.</p>` +
+      `<pre style="${ff}">${esc(code)}</pre>`);
+  });
+</script>
+</body>
+</html>
